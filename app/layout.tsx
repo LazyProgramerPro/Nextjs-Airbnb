@@ -1,22 +1,21 @@
-import Navbar from "./components/navbar/Navbar";
-import "./globals.css";
-import {Nunito} from "next/font/google"
-
+import { Nunito } from 'next/font/google';
+import ClientOnly from './components/ClientOnly';
+import Modal from './components/modals/Modal';
+import Navbar from './components/navbar/Navbar';
+import './globals.css';
+import RegisterModal from './components/modals/RegisterModal';
+import ToasterProvider from './providers/ToasterProvider';
 
 export const metadata = {
-  title: "Aribnb",
-  description: "Aribnb clone",
+  title: 'Aribnb',
+  description: 'Aribnb clone',
 };
 
 const font = Nunito({
-  subsets:["latin"]
-})
+  subsets: ['latin'],
+});
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       {/*
@@ -25,9 +24,13 @@ export default function RootLayout({
       */}
       <head />
       <body className={font.className}>
-        <Navbar />
+        <ClientOnly>
+        <ToasterProvider />
+          <RegisterModal />
+          <Navbar />
+        </ClientOnly>
         {children}
-        </body>
+      </body>
     </html>
   );
 }
