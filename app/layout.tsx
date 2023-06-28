@@ -5,6 +5,8 @@ import Navbar from './components/navbar/Navbar';
 import './globals.css';
 import RegisterModal from './components/modals/RegisterModal';
 import ToasterProvider from './providers/ToasterProvider';
+import LoginModal from './components/modals/LoginModal';
+import getCurrentUser from './actions/getCurrentUser';
 
 export const metadata = {
   title: 'Aribnb',
@@ -15,7 +17,8 @@ const font = Nunito({
   subsets: ['latin'],
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       {/*
@@ -25,9 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body className={font.className}>
         <ClientOnly>
-        <ToasterProvider />
+          <ToasterProvider />
           <RegisterModal />
-          <Navbar />
+          <LoginModal />
+          <Navbar currentUser={currentUser} />
         </ClientOnly>
         {children}
       </body>
